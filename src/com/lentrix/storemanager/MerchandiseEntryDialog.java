@@ -110,14 +110,14 @@ public class MerchandiseEntryDialog extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         wholesaleUnitField = new javax.swing.JTextField();
-        wholesaleQtyField = new javax.swing.JTextField();
-        wholesalePriceField = new javax.swing.JTextField();
         retailUnitField = new javax.swing.JTextField();
-        retailPriceField = new javax.swing.JTextField();
         saveChangesButton = new javax.swing.JButton();
         closeButton = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        quantityField = new javax.swing.JTextField();
+        wholesaleQtyField = new javax.swing.JFormattedTextField();
+        wholesalePriceField = new javax.swing.JFormattedTextField();
+        retailPriceField = new javax.swing.JFormattedTextField();
+        quantityField = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Merchandise Data Entry");
@@ -163,6 +163,18 @@ public class MerchandiseEntryDialog extends javax.swing.JDialog {
 
         jLabel11.setText("Quantity:");
 
+        wholesaleQtyField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
+        wholesaleQtyField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+
+        wholesalePriceField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.##"))));
+        wholesalePriceField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+
+        retailPriceField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.##"))));
+        retailPriceField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+
+        quantityField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
+        quantityField.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -180,10 +192,10 @@ public class MerchandiseEntryDialog extends javax.swing.JDialog {
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(retailUnitField)
-                            .addComponent(wholesalePriceField)
-                            .addComponent(wholesaleQtyField)
                             .addComponent(volumeField)
-                            .addComponent(wholesaleUnitField)))
+                            .addComponent(wholesaleUnitField)
+                            .addComponent(wholesaleQtyField)
+                            .addComponent(wholesalePriceField)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
@@ -199,7 +211,7 @@ public class MerchandiseEntryDialog extends javax.swing.JDialog {
                                 .addComponent(saveChangesButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(closeButton)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 299, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -209,7 +221,7 @@ public class MerchandiseEntryDialog extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(barCodeField)
                             .addComponent(itemNameField)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane1))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -254,7 +266,7 @@ public class MerchandiseEntryDialog extends javax.swing.JDialog {
                     .addComponent(jLabel10)
                     .addComponent(retailPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(quantityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
@@ -282,11 +294,11 @@ public class MerchandiseEntryDialog extends javax.swing.JDialog {
                         itemDescriptionField.getText(),
                         volumeField.getText(),
                         wholesaleUnitField.getText(),
-                        Integer.parseInt(wholesaleQtyField.getText()),
-                        Float.parseFloat(wholesalePriceField.getText()),
+                        Integer.parseInt(Helper.removeComma(wholesaleQtyField.getText())),
+                        Float.parseFloat(Helper.removeComma(wholesalePriceField.getText())),
                         retailUnitField.getText(),
-                        Float.parseFloat(retailPriceField.getText()),
-                        Integer.parseInt(quantityField.getText())
+                        Float.parseFloat(Helper.removeComma(retailPriceField.getText())),
+                        Integer.parseInt(Helper.removeComma(quantityField.getText()))
                 );
                 
                 ItemController.insert(item);
@@ -330,13 +342,13 @@ public class MerchandiseEntryDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField quantityField;
-    private javax.swing.JTextField retailPriceField;
+    private javax.swing.JFormattedTextField quantityField;
+    private javax.swing.JFormattedTextField retailPriceField;
     private javax.swing.JTextField retailUnitField;
     private javax.swing.JButton saveChangesButton;
     private javax.swing.JTextField volumeField;
-    private javax.swing.JTextField wholesalePriceField;
-    private javax.swing.JTextField wholesaleQtyField;
+    private javax.swing.JFormattedTextField wholesalePriceField;
+    private javax.swing.JFormattedTextField wholesaleQtyField;
     private javax.swing.JTextField wholesaleUnitField;
     // End of variables declaration//GEN-END:variables
 }

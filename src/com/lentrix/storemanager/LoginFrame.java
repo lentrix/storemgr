@@ -126,7 +126,11 @@ public class LoginFrame extends javax.swing.JFrame {
                 if(user!=null) {
                     Helper.currentUser = user;
                     this.dispose();
-                    new ManagementFrame().setVisible(true);
+                    if(user.getRole().equals("cashier")) {
+                        new POSTerminal().setVisible(true);
+                    }else {
+                        new ManagementFrame().setVisible(true);
+                    }
                 }else {
                     Helper.error("Invalid credentials", this);
                 }

@@ -42,6 +42,20 @@ CREATE TABLE `items` (
 );
 
 INSERT INTO `items` ( `bar_code`, `name`, `description`, `volume`, `ws_unit`, `ws_qty`, `ws_price`, `rt_unit`, `rt_price`, `qty` )
-VALUES  ( '282237256182', 'Downy Expert Antibac' , 'Fabric Conditioner with Antibac in Sachet', '38mL', 'dozen', 12, 78.50, 'sachet', 6.99, 120 ),
-        ( '094734738327', 'Efficascent Oil' , 'Methyl Salicylate Camphor+Menthol' , '100mL', 'bottle', 1, 45.60, 'bottle', 45.60, 32 ),
-        ( '897654566543', '555 Sardines (Green)' , 'Sardines in Tomato sauce regular', '155g', 'dozen', 12, 250.00, 'can', 21.20, 90 );
+VALUES  ( '1', 'Downy Expert Antibac' , 'Fabric Conditioner with Antibac in Sachet', '38mL', 'dozen', 12, 78.50, 'sachet', 6.99, 120 ),
+        ( '2', 'Efficascent Oil' , 'Methyl Salicylate Camphor+Menthol' , '100mL', 'bottle', 1, 45.60, 'bottle', 45.60, 32 ),
+        ( '3', '555 Sardines (Green)' , 'Sardines in Tomato sauce regular', '155g', 'dozen', 12, 250.00, 'can', 21.20, 90 );
+
+CREATE TABLE `customers` (
+    `id`            INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `name`          VARCHAR(90) NOT NULL,
+    `address`       VARCHAR(200) NOT NULL,
+    `phone`         VARCHAR(15) NOT NULL,
+    `credit_limit`  DECIMAL(8,2) NOT NULL
+);
+
+INSERT INTO `customers` ( `name`, `address`, `phone`, `credit_limit` )
+VALUES  ( 'Sulpicia Aparicio', 'Camambugan, Ubay, Bohol', '09125452569', 5000 ),
+        ( 'Cipriano Reyes', 'Fatima, Ubay, Bohol', '09225458789', 7000 ),
+        ( 'Fulgencia Boyles', 'Bood, Ubay, Bohol', '92587458563', 8000 );
+

@@ -101,4 +101,27 @@ public class ItemController {
         ps.setInt(1, item.getId());
         ps.execute();
     }
+    
+    public static ItemModel findCode(String barCode) throws SQLException {
+        Connection conn = DB.connect();
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM items WHERE bar_code=?");
+        ps.setString(1, barCode);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()) {
+            return new ItemModel(
+                    rs.getInt("id"),
+                    rs.getString("bar_code"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getString("volume"),
+                    rs.getString("ws_unit"),
+                    rs.getInt("ws_qty"),
+                    rs.getFloat("ws_price"),
+                    rs.getString("rt_unit"),
+                    rs.getFloat("rt_price"),
+                    rs.getInt("qty"));
+        }else {
+            return null;
+        }
+    }
 }

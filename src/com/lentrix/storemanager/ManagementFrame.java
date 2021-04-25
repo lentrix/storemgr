@@ -17,8 +17,11 @@ public class ManagementFrame extends javax.swing.JFrame {
     public ManagementFrame() {
         initComponents();
         userLabel.setText("User: " + Helper.currentUser.getFullname());
-        jTabbedPane1.add("Users", new UsersAdminPanel());
+        
         jTabbedPane1.add("Merchandise", new MerchandiseAdminPanel());
+        jTabbedPane1.add("Customers", new CustomerAdminPanel());
+        jTabbedPane1.add("Users", new UsersAdminPanel());
+        
     }
 
     /**
