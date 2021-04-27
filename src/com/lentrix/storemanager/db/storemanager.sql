@@ -59,3 +59,22 @@ VALUES  ( 'Sulpicia Aparicio', 'Camambugan, Ubay, Bohol', '09125452569', 5000 ),
         ( 'Cipriano Reyes', 'Fatima, Ubay, Bohol', '09225458789', 7000 ),
         ( 'Fulgencia Boyles', 'Bood, Ubay, Bohol', '92587458563', 8000 );
 
+CREATE TABLE `sales` (
+    `id`            INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `timestamp`     TIMESTAMP NOT NULL,
+    `customer_id`   INTEGER UNSIGNED,
+    `user_id`       INTEGER UNSIGNED NOT NULL,
+    FOREIGN KEY (`customer_id`) REFERENCES `customers`(`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+);
+
+CREATE TABLE `sales_items` (
+    `id`            INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `item_id`       BIGINT UNSIGNED NOT NULL,
+    `sales_id`      INTEGER UNSIGNED,
+    `qty`           INTEGER NOT NULL,
+    `price`         DECIMAL(8,2) NOT NULL,
+    `is_wholesale`  BOOLEAN DEFAULT 1,
+    FOREIGN KEY (`item_id`) REFERENCES `items`(`id`),
+    FOREIGN KEY (`sales_id`) REFERENCES `sales`(`id`)
+);

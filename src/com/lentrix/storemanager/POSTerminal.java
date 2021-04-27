@@ -6,9 +6,12 @@
 package com.lentrix.storemanager;
 
 import com.lentrix.storemanager.db.ItemController;
+import com.lentrix.storemanager.db.SalesController;
+import com.lentrix.storemanager.db.SalesItemController;
 import com.lentrix.storemanager.models.CustomerModel;
 import com.lentrix.storemanager.models.ItemModel;
 import com.lentrix.storemanager.models.SalesItemModel;
+import com.lentrix.storemanager.models.SalesModel;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.sql.SQLException;
@@ -37,6 +40,7 @@ public class POSTerminal extends javax.swing.JFrame {
         GraphicsDevice device = graphics.getDefaultScreenDevice();
         device.setFullScreenWindow(this);
         barCodeField.grabFocus();
+        cashierLabel.setText("Cashier: " + Helper.currentUser.getFullname());
         
         salesItems = new ArrayList<SalesItemModel>();
         
@@ -57,7 +61,6 @@ public class POSTerminal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         clearButton = new javax.swing.JButton();
         quantityButton = new javax.swing.JButton();
-        customerButton = new javax.swing.JButton();
         wholesaleRetailButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         finalizeButton = new javax.swing.JButton();
@@ -66,7 +69,6 @@ public class POSTerminal extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         subTotalLabel = new javax.swing.JLabel();
         cashierLabel = new javax.swing.JLabel();
-        customerLabel = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -110,10 +112,12 @@ public class POSTerminal extends javax.swing.JFrame {
         });
         jPanel2.add(quantityButton);
 
-        customerButton.setText("Customer");
-        jPanel2.add(customerButton);
-
         wholesaleRetailButton.setText("Wholesale / Retail");
+        wholesaleRetailButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wholesaleRetailButtonActionPerformed(evt);
+            }
+        });
         jPanel2.add(wholesaleRetailButton);
 
         removeButton.setText("Remove");
@@ -125,6 +129,11 @@ public class POSTerminal extends javax.swing.JFrame {
         jPanel2.add(removeButton);
 
         finalizeButton.setText("Finalize");
+        finalizeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finalizeButtonActionPerformed(evt);
+            }
+        });
         jPanel2.add(finalizeButton);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_START);
@@ -157,8 +166,6 @@ public class POSTerminal extends javax.swing.JFrame {
 
         cashierLabel.setText("Cashier: Name of Cashier");
 
-        customerLabel.setText("Customer: None");
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -166,9 +173,7 @@ public class POSTerminal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cashierLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(customerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(266, 266, 266)
                 .addComponent(subTotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -178,8 +183,7 @@ public class POSTerminal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(subTotalLabel)
-                    .addComponent(cashierLabel)
-                    .addComponent(customerLabel))
+                    .addComponent(cashierLabel))
                 .addContainerGap())
         );
 
@@ -200,7 +204,7 @@ public class POSTerminal extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Quantity Type: Retail");
+        jLabel3.setText("Quantity Type: Wholesale");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -213,7 +217,7 @@ public class POSTerminal extends javax.swing.JFrame {
                 .addComponent(barCodeField, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addContainerGap(378, Short.MAX_VALUE))
+                .addContainerGap(349, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,7 +299,8 @@ public class POSTerminal extends javax.swing.JFrame {
             ItemModel item = ItemController.findCode(barCodeField.getText());
             if(item!=null) {
                 SalesItemModel salesItem = new SalesItemModel(-1, item, 1, true);
-            
+                salesItem.getPrice();
+                
                 salesItems.add(salesItem);
                 refreshTable();
                 barCodeField.setText(null);
@@ -320,13 +325,22 @@ public class POSTerminal extends javax.swing.JFrame {
         switch(evt.getKeyCode()) {
             case 112: clear(); break;
             case 113: changeQty(); break;
-            case 116: remove(); break;
+            case 115: remove(); break;
+            case 114: toggleWholesale(); break;
         }
     }//GEN-LAST:event_barCodeFieldKeyReleased
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         remove();
     }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void wholesaleRetailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wholesaleRetailButtonActionPerformed
+        toggleWholesale();
+    }//GEN-LAST:event_wholesaleRetailButtonActionPerformed
+
+    private void finalizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finalizeButtonActionPerformed
+        finalizeSales();
+    }//GEN-LAST:event_finalizeButtonActionPerformed
 
     private void remove() {
         int row = jTable1.getSelectedRow();
@@ -341,6 +355,18 @@ public class POSTerminal extends javax.swing.JFrame {
         }else {
             barCodeField.grabFocus();
         }
+    }
+    
+    private void toggleWholesale() {
+        int row = jTable1.getSelectedRow();
+        row = row==-1?salesItems.size()-1:row;
+        
+        SalesItemModel salesItem = salesItems.get(row);
+        
+        salesItem.setIsWholeSale(!salesItem.isIsWholeSale());
+        salesItem.renewPrice();
+        
+        refreshTable();
     }
     
     private void clear() {
@@ -367,6 +393,24 @@ public class POSTerminal extends javax.swing.JFrame {
         }
     }
     
+    private void finalizeSales() {
+        try {
+            
+            //Create a new dialog to ask for cash tender
+            //transfer the code below to the appropriate method
+            //in the dialog and continue on with the finalization process
+            //including printing of receipt.
+            SalesModel sales = SalesController.create();
+            SalesItemController.insert(salesItems, sales.getId());
+            
+        }catch(SQLException ex) {
+            Helper.error(ex.getMessage(), this);
+        }
+    }
+    
+    /**
+     * Change customer for future additional feature
+     */
     private void changeCustomer() {
         
     }
@@ -416,8 +460,6 @@ public class POSTerminal extends javax.swing.JFrame {
     private javax.swing.JTextField barCodeField;
     private javax.swing.JLabel cashierLabel;
     private javax.swing.JButton clearButton;
-    private javax.swing.JButton customerButton;
-    private javax.swing.JLabel customerLabel;
     private javax.swing.JButton finalizeButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

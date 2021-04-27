@@ -14,12 +14,22 @@ public class SalesItemModel {
     private ItemModel item;
     private int qty;
     private boolean isWholeSale;
+    private float price;
+    private SalesModel sales;
 
     public SalesItemModel(int id, ItemModel item, int qty, boolean isWholeSale) {
         this.id = id;
         this.item = item;
         this.qty = qty;
         this.isWholeSale = isWholeSale;
+    }
+    
+    public SalesItemModel(int id, ItemModel item, int qty, boolean isWholeSale, SalesModel sales) {
+        this.id = id;
+        this.item = item;
+        this.qty = qty;
+        this.isWholeSale = isWholeSale;
+        this.sales = sales;
     }
 
     public int getId() {
@@ -60,7 +70,21 @@ public class SalesItemModel {
     }
     
     public float getPrice() {
-        float price = isWholeSale ? item.getWsPrice() : item.getRtPrice();
-        return price;
+        if(this.price==0f)
+            this.price = isWholeSale ? item.getWsPrice() : item.getRtPrice();
+        return this.price;
+    }
+    
+    public float renewPrice() {
+        this.price = isWholeSale ? item.getWsPrice() : item.getRtPrice();
+        return this.price;
+    }
+
+    public SalesModel getSales() {
+        return sales;
+    }
+
+    public void setSales(SalesModel sales) {
+        this.sales = sales;
     }
 }

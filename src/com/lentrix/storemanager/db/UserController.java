@@ -99,4 +99,23 @@ public class UserController {
         ps.setInt(1, user.getId());
         ps.execute();
     }
+    
+    public static UserModel get(int id) throws SQLException {
+        Connection conn = DB.connect();
+        
+        ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM users WHERE id=" + id);
+        
+        if(rs.next()) {
+            return new UserModel(
+                    rs.getInt("id"),
+                    rs.getString("fullname"),
+                    rs.getString("username"),
+                    rs.getString("password"),
+                    rs.getString("role"),
+                    rs.getTimestamp("last_login").toLocalDateTime()
+            );
+        }else {
+            return null;
+        }
+    }
 }

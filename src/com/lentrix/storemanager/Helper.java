@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * @author lentrix
  */
 public class Helper {
-    protected static UserModel currentUser;
+    public static UserModel currentUser;
     
     public static void error(String message, Component parent) {
         JOptionPane.showMessageDialog(parent, message, "Error!", JOptionPane.ERROR_MESSAGE);

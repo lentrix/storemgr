@@ -135,15 +135,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="quantityButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="customerButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Customer"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="wholesaleRetailButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Wholesale / Retail"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="wholesaleRetailButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="removeButton">
               <Properties>
@@ -157,6 +155,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Finalize"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="finalizeButtonActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -211,9 +212,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cashierLabel" min="-2" pref="223" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="customerLabel" min="-2" pref="242" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="266" max="-2" attributes="0"/>
                       <Component id="subTotalLabel" pref="464" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -226,7 +225,6 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="subTotalLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cashierLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="customerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -246,11 +244,6 @@
             <Component class="javax.swing.JLabel" name="cashierLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cashier: Name of Cashier"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="customerLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Customer: None"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -283,7 +276,7 @@
                           <Component id="barCodeField" min="-2" pref="231" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="378" max="32767" attributes="0"/>
+                          <EmptySpace pref="349" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -315,7 +308,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel3">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Quantity Type: Retail"/>
+                    <Property name="text" type="java.lang.String" value="Quantity Type: Wholesale"/>
                   </Properties>
                 </Component>
               </SubComponents>
